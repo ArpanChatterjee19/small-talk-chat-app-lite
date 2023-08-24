@@ -7,14 +7,15 @@ export const Message = ({message}) => {
   const {currentUser} = useContext(AuthContext)
   const {data} = useContext(ChatContext)
   const ref = useRef(null);
-  const msgTimestamp = new Date(message.date.seconds *1000).toLocaleTimeString();
+
+  const msgTimestamp = new Date(message.date.seconds *1000).toLocaleTimeString('en-IN', { hour: 'numeric', minute: 'numeric', hour12: true });
 
   useEffect(() => {
     ref.current?.scrollIntoView({behavior:"smooth"})
   }, [message])
 
 
-  console.log (message);
+  // console.log (message);
   return (
     <div ref={ref} className= {`message ${message.senderId === currentUser.uid && "self"}`}>
       <div className="messageInfo">
