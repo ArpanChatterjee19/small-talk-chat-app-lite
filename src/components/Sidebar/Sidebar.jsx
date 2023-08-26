@@ -8,7 +8,11 @@ export const Sidebar = () => {
     <div className='sidebar'>
       <Navbar/>
       <Search/>
+      <hr></hr>
       <Chatlist/>
+      <footer className="copyright">
+        <span>©chatRG 2023 | Arpan Chatterjee</span>
+      </footer>
     </div>
   )
 }

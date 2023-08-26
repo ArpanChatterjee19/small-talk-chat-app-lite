@@ -24,7 +24,7 @@ export const Message = ({message}) => {
       </div>
       <div className="messageContent">
         {message.text && <p>{message.text}</p>}
-        {message.img && <img src= {message.img} alt="" />}
+        {message.img && <img src= {message.img} alt="" loading='lazy'/>}
       </div>
     </div>
   )

@@ -1,8 +1,11 @@
 import React, { useContext, useState } from "react";
 import Img from "../../img/img.png";
-import Attach from "../../img/attach.png";
+import VoiceRecorder from "../../img/Voice.png";
+import Send from "../../img/send.png";
+import EmojiIcon from "../../img/Emoji.png";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthContext";
+import EmojiPicker, { Emoji, EmojiStyle, Theme } from "emoji-picker-react";
 import {
   Timestamp,
   arrayUnion,
@@ -13,41 +16,63 @@ import {
 import { db, storage } from "../../firebase";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import imageCompression from "browser-image-compression";
+
 
 export const Input = () => {
   const [text, setText] = useState("");
   const [img, setImg] = useState(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
   const { data } = useContext(ChatContext);
 
+  const handleShowPicker = ()=>{
+    setShowEmojiPicker(!showEmojiPicker);
+  }
+
+  const handleEmojiClick = (event) => {
+    setText(text => text += event.emoji);
+  };
+
   const handleSend = async () => {
     if (img) {
-      const storageRef = ref(storage, uuid());
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 1920,
+        useWebWorker: true,
+      };
+      const compressedImg = await imageCompression(img, options);
 
-      const uploadTask = uploadBytesResumable(storageRef, img);
+      if (compressedImg) {
+        const storageRef = ref(storage, uuid());
 
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {},
-        (error) => {
-          // setError(true);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            await updateDoc(doc(db, "chats", data.chatId), {
-              messages: arrayUnion({
-                id: uuid(),
-                text,
-                senderId: currentUser.uid,
-                date: Timestamp.now(),
-                img: downloadURL,
-              }),
-            });
-          });
-        }
-      );
-    } else if(text) {
+        const uploadTask = uploadBytesResumable(storageRef, compressedImg);
+
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {},
+          (error) => {
+            // setError(true);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(
+              async (downloadURL) => {
+                await updateDoc(doc(db, "chats", data.chatId), {
+                  messages: arrayUnion({
+                    id: uuid(),
+                    text,
+                    senderId: currentUser.uid,
+                    date: Timestamp.now(),
+                    img: downloadURL,
+                  }),
+                });
+              }
+            );
+          }
+        );
+      }
+    } else if (text) {
       await updateDoc(doc(db, "chats", data.chatId), {
         messages: arrayUnion({
           id: uuid(),
@@ -70,7 +95,7 @@ export const Input = () => {
         setText("");
         setImg(null);
       }
-  
+
       try {
         await updateDoc(doc(db, "userChats", data.user.uid), {
           [data.chatId + ".lastMessage"]: {
@@ -94,7 +119,7 @@ export const Input = () => {
         setText("");
         setImg(null);
       }
-  
+
       try {
         await updateDoc(doc(db, "userChats", data.user.uid), {
           [data.chatId + ".lastMessage"]: {
@@ -113,26 +138,42 @@ export const Input = () => {
   };
 
   return (
-    <div className="input">
-      <input
-        type="text"
-        placeholder="Type message..."
-        onChange={(e) => setText(e.target.value)}
-        value={text}
-      />
-      <div className="send">
-        <img src={Attach} alt="" />
-        <input
-          type="file"
-          style={{ display: "none" }}
-          id="file"
-          onChange={(e) => setImg(e.target.files[0])}
+    <React.Fragment>
+      <div className="input">
+        <div className="emojiTray">
+          <img className="emojiIcon" src={EmojiIcon} alt="" onClick={handleShowPicker}/>
+          { showEmojiPicker && 
+          <EmojiPicker
+          theme={Theme.AUTO}
+          lazyLoadEmojis={true}
+          height={400}
+          width={300}
+          onEmojiClick={handleEmojiClick}
+        />}
+        </div>
+        <textarea
+          type="text"
+          placeholder="Type new message..."
+          onChange={(e) => setText(e.target.value)}
+          value={text}
         />
-        <label htmlFor="file">
-          <img src={Img} alt="" />
-        </label>
-        <button onClick={handleSend}>Send</button>
+        <div className="send">
+          <img src={VoiceRecorder} alt="" />
+          <input
+            type="file"
+            style={{ display: "none" }}
+            id="file"
+            onChange={(e) => setImg(e.target.files[0])}
+          />
+          <label htmlFor="file">
+            <img src={Img} alt="" />
+          </label>
+          <button onClick={handleSend}>
+            <img src={Send} alt="" />
+          </button>
+        </div>
       </div>
-    </div>
+      
+    </React.Fragment>
   );
 };
