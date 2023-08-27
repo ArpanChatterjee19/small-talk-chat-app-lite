@@ -72,7 +72,7 @@ const Register = () => {
             <span>Add your avatar</span>
           </label>
           <button>Sign Up</button>
-          {err && <span>Something went wrong</span>}
+          {err && <span className="errorMsg">Something went wrong !!</span>}
         </form>
         <p>Already have an account? <Link to="/login">Login</Link></p>
       </div>

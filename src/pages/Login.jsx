@@ -31,7 +31,7 @@ const Login = () => {
           <input type="email" placeholder="email id" />
           <input type="password" placeholder="password (at least 6 characters)" />
           <button>Sign In</button>
-          {err && <span>Something went wrong</span>}
+          {err && <span className="errorMsg">Something went wrong !!</span>}
         </form>
         <p>Don't have an account? <Link to="/register">Register</Link></p>
       </div>

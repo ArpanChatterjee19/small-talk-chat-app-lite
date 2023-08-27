@@ -55,6 +55,12 @@
         border: none;
         cursor: pointer;
       }
+
+      .errorMsg {
+        color: red;
+        font-weight: 400;
+        padding: 0px 50px;
+      }
       label {
         display: flex;
         align-items: center;
@@ -298,20 +304,40 @@
         gap: 10px;
 
         p {
-          background-color: #64568e;
+          background-color: #514672;
           padding: 10px 20px;
           border-radius: 0px 10px 10px 10px;
           max-width: max-content;
           margin-bottom: 10px;
           margin-top: 10px;
           color: white;
+          font-size: large;
         }
         img {
           width: 60%;
-          border: 3px solid #64568e;
+          border: 3px solid #514672;
           border-radius: 5px;
           margin-bottom: 10px;
           margin-top: 10px;
+        }
+
+        .captionedImg {
+          width: 60%;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          border-radius: 10px;
+          background-color: #514672;
+          padding-right: 6px;
+
+          img {
+            width: 100%;
+            margin: 0;
+          }
+
+          p {
+            margin-top: 0px;
+            padding: 0px 10px;
+          }
         }
       }
 
@@ -322,13 +348,29 @@
           align-items: flex-end;
 
           p {
-            background-color: #7b33ff;
+            background-color: #5b1dcf;
             color: white;
             border-radius: 10px 0px 10px 10px;
           }
 
           img {
-            border: 3px solid #7b33ff;
+            border: 3px solid #5b1dcf;
+            width: 60%;
+          }
+
+          .captionedImg {
+            background-color: #5b1dcf;
+            padding-right: 6px;
+
+            img {
+              width: 100%;
+              margin: 0;
+            }
+
+            p {
+              margin-top: 0px;
+              padding: 0px 10px;
+            }
           }
         }
       }
@@ -348,7 +390,6 @@
       overflow-y: scroll;
       // position: fixed;
       // top: 75px;
-      
 
       &::-webkit-scrollbar {
         width: 5px;
@@ -396,18 +437,16 @@
         height: 450px;
         bottom: 27px;
 
-        .emojiIcon{
+        .emojiIcon {
           height: 35px;
           cursor: pointer;
           position: absolute;
           bottom: -10px;
         }
 
-        .emoji-picker-react{
+        .emoji-picker-react {
           position: absolute;
         }
-
-        
       }
 
       textarea {

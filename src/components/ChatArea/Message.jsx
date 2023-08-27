@@ -23,8 +23,14 @@ export const Message = ({message}) => {
         <span>{msgTimestamp}</span>
       </div>
       <div className="messageContent">
-        {message.text && <p>{message.text}</p>}
-        {message.img && <img src= {message.img} alt="" loading='lazy'/>}
+        {message.text && !message.img && <p>{message.text}</p>}
+        {message.img && message.text==='' && <img src= {message.img} alt="" loading='lazy'/>}
+        {message.text && message.img && 
+          <flexbox className='captionedImg'>
+            <img src={message.img} alt="" />
+            <p>{message.text}</p>
+          </flexbox>
+        }
       </div>
     </div>
   )

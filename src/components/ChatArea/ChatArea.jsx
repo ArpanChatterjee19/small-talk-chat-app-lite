@@ -6,7 +6,6 @@ import StartChat from "../../img/StartChat.png";
 import { MessageSection } from "./MessageSection";
 import { Input } from "./Input";
 import { ChatContext } from "../../context/ChatContext";
-import { Emojis } from "./Emojis";
 
 export const ChatArea = () => {
   const { data } = useContext(ChatContext);
@@ -27,7 +26,6 @@ export const ChatArea = () => {
             </div>
           </div>
           <MessageSection/>
-          {/* <Emojis/> */}
           <Input />
         </div>
       ) : (

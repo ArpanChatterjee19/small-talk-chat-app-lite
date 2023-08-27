@@ -5,7 +5,7 @@ import Send from "../../img/send.png";
 import EmojiIcon from "../../img/Emoji.png";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthContext";
-import EmojiPicker, { Emoji, EmojiStyle, Theme } from "emoji-picker-react";
+import EmojiPicker, { Theme } from "emoji-picker-react";
 import {
   Timestamp,
   arrayUnion,
@@ -82,8 +82,9 @@ export const Input = () => {
         }),
       });
     }
+    
 
-    if (text) {
+    if (text && img===null) {
       try {
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [data.chatId + ".lastMessage"]: {
@@ -111,19 +112,7 @@ export const Input = () => {
       try {
         await updateDoc(doc(db, "userChats", currentUser.uid), {
           [data.chatId + ".lastMessage"]: {
-            text: "Photo",
-          },
-          [data.chatId + ".date"]: serverTimestamp(),
-        });
-      } catch (error) {
-        setText("");
-        setImg(null);
-      }
-
-      try {
-        await updateDoc(doc(db, "userChats", data.user.uid), {
-          [data.chatId + ".lastMessage"]: {
-            text: "Photo",
+            text:"[Photo]  "+text,
           },
           [data.chatId + ".date"]: serverTimestamp(),
         });
