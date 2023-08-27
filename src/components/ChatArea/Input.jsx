@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import Img from "../../img/img.png";
-import VoiceRecorder from "../../img/Voice.png";
 import Send from "../../img/send.png";
 import EmojiIcon from "../../img/Emoji.png";
 import { ChatContext } from "../../context/ChatContext";
@@ -147,7 +146,6 @@ export const Input = () => {
           value={text}
         />
         <div className="send">
-          <img src={VoiceRecorder} alt="" />
           <input
             type="file"
             style={{ display: "none" }}

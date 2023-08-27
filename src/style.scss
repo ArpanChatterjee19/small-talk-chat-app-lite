@@ -312,6 +312,8 @@
           margin-top: 10px;
           color: white;
           font-size: large;
+        
+
         }
         img {
           width: 60%;
@@ -328,6 +330,7 @@
           border-radius: 10px;
           background-color: #514672;
           padding-right: 6px;
+
 
           img {
             width: 100%;
@@ -473,10 +476,11 @@
       .send {
         display: flex;
         align-items: center;
-        gap: 15px;
+        gap: 20px;
 
         img {
-          height: 30px;
+          height: 40px;
+          padding-top: 10px;
           cursor: pointer;
         }
 
@@ -497,6 +501,7 @@
           img {
             width: 28px;
             height: 28px;
+            padding-top: 0;
             object-fit: contain;
           }
         }
