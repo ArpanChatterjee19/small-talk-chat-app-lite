@@ -119,6 +119,18 @@ export const Input = () => {
         setText("");
         setImg(null);
       }
+
+      try {
+        await updateDoc(doc(db, "userChats", data.user.uid), {
+          [data.chatId + ".lastMessage"]: {
+            text,
+          },
+          [data.chatId + ".date"]: serverTimestamp(),
+        });
+      } catch (error) {
+        setText("");
+        setImg(null);
+      }
     }
 
     setText("");
