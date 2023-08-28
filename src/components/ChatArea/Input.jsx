@@ -123,7 +123,7 @@ export const Input = () => {
       try {
         await updateDoc(doc(db, "userChats", data.user.uid), {
           [data.chatId + ".lastMessage"]: {
-            text,
+            text:"[Photo]  "+text,
           },
           [data.chatId + ".date"]: serverTimestamp(),
         });
